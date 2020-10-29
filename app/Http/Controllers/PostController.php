@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Post;
 use DB;
+use App\Post;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -15,6 +15,7 @@ class PostController extends Controller
      */
     public function __construct()
     {
+        //DB::connection()->enableQueryLog();
         $this->middleware('auth',['except' => ['index','show']]);
     }
 
@@ -35,6 +36,12 @@ class PostController extends Controller
         //echo "<pre>";print_r($data);exit;
         //$data['post'] =  Post::where('vTitle','Post Two')->get();
         //$data['post'] = Db::select('SELECT * FROM posts');
+        /*
+            TO Enable Query Log Also check constructer
+            $queries = DB::getQueryLog();
+            $last_query = end($queries);
+            echo "<pre>";print_r($queries);exit;
+        */        
         return view('posts.index',compact('data'));
     }
 
@@ -68,7 +75,7 @@ class PostController extends Controller
         $post->iUserId = auth()->user()->iUserId;
         $post->save();
 
-        return redirect('/post')->with('success','Post Created');
+        return redirect('/dashboard')->with('success','Post Created');
     }
 
     /**

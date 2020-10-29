@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     //Table name
     protected  $table = 'users';
@@ -36,4 +37,8 @@ class User extends Authenticatable
     public function getAuthPassword(){
         return $this->vPassword;
     }
+
+    // public function post(){
+    //     return $this->hasMany('App\Post','iUserId');
+    // }
 }

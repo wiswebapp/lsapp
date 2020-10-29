@@ -14,9 +14,12 @@ class CreatePostsTable extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->increments('iPostId');
+            $table->increments('iPostId')->unsigned();
             $table->string('vTitle');
             $table->mediumtext('vBody');
+            $table->integer('iUserId');
+            $table->enum('eStatus',['Active','InActive'])->default('Active');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,7 +31,6 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-
         Schema::dropIfExists('posts');
     }
 }

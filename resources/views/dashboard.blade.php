@@ -42,8 +42,14 @@
                         </tr>
                     @endif
                     </table>
-
-                    <a class="btn btn-lg btn-warning" href="/post/create">Create Post</a>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a class="pagination pull-left btn btn-lg btn-link" href="/post/create">Create Post</a>
+                        </div>
+                        <div class="col-md-6 pull-right">
+                            {{$data['postdata']->links()}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,46 +1,38 @@
-@extends('layouts.app')
+@extends('layouts.app_admin')
 
-@section('content')
+@section('title','Admin Login')
+
+@section('content_admin')
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Admin Login</div>
-
-                <div class="panel-body">
-
-                    <form method="POST" action="{{ route('admin.login') }}">
-                        
-                        {{ csrf_field() }}
-                       
-                        <div class="form-group{{ $errors->has('vEmail') ? ' has-error' : '' }}">
-                            <label for="vEmail" class="col-md-4 control-label">E-Mail Address</label>
-                            <input id="vEmail" type="email" class="form-control" name="vEmail" value="{{ old('vEmail') }}" required autofocus>
-                            @if ($errors->has('vEmail'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('vEmail') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="">Password</label>
-                                <input id="password" type="password" class="form-control" name="password" required>
-                            @if ($errors->has('password'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-block btn-primary">Login</button>
-                        </div>
-                        
-                    </form>
-                </div>
-            </div>
+    <div class="login-box">
+        <div class="login-logo">
+          <a><b>Admin</b>LTE</a>
         </div>
-    </div>
+        <div class="card">
+          <div class="card-body login-card-body">
+            <p class="login-box-msg">Sign in to start your session</p>
+            
+            @include('include.messages')
+
+            <form method="POST" action="{{ route('admin.login') }}">
+
+                {{ csrf_field() }}
+
+                <div class="form-group{{ $errors->has('vEmail') ? ' has-error' : '' }}">
+                    <label>E-Mail Address</label>
+                    <input id="vEmail" type="email" class="form-control" name="vEmail" value="{{ old('vEmail') }}" required autofocus>
+                </div>
+                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                    <label>Password</label>
+                    <input id="password" type="password" class="form-control" name="password" required>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-block btn-primary">Login</button>
+                </div>
+            </form> 
+          </div>
+        </div>
+      </div>
 </div>
 @endsection

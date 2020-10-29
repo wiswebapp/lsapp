@@ -34,13 +34,21 @@ Auth::routes();
 Route::get('/dashboard', 'DashboardController@index')->name('home');
 
 /*--------------------Admin Panel--------------------*/
-Route::get('/admin', 'Auth\admin\LoginController@showLoginForm')->name('admin');
+Route::get('admin', 'Auth\admin\LoginController@showLoginForm')->name('admin');
+// Route::get('admin', function(){
+//     return redirect()->route('admin.login');
+// });
 
-Route::prefix('admin')->namespace('Auth\admin')->group(function(){
+Route::prefix('admin')->namespace('Auth\admin')->group(function(){    
     $this->get('login','LoginController@showLoginForm')->name('admin.login');
     $this->post('login','LoginController@login');
     $this->post('logout','LoginController@logout')->name('admin.logout');
 });
+Route::prefix('admin')->middleware(['auth:admin'])->namespace('admin')->group(function(){    
+    $this->get('/user','UsersController@index');
+    $this->get('/user/admin_user','UsersController@admin')->name('admin.user.admin_user');
+});
+
 Route::prefix('admin')->namespace('Admin')->group(function(){
     $this->get('dashboard','DashboardController@index')->name('admin.dashboard');
 });

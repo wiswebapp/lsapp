@@ -24,8 +24,11 @@ class DashboardController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $userid = auth()->user()->iUserId;        
-        $data['postdata'] =  Post::where('iUserId',$userid)->get();
+        $userid = auth()->user()->iUserId;
+        $data['postdata'] =  Post::where('iUserId',$userid)
+                                    ->orderBy('iPostId','desc')
+                                    ->paginate(6);
+                                    //->get();
         return view('dashboard',compact('data'));
     }
 }
