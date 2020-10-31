@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->integer('vCountry');
             $table->integer('vState');
             $table->integer('vCity');
+            $table->string('vImage');
             $table->enum('eGender',['Male','Female']);
             $table->date('dBirthDate',['Male','Female']);
             $table->enum('eStatus',['Active','InActive'])->default('Active');

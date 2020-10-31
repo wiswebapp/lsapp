@@ -27,7 +27,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('admin.user.admin_user')}}" class="nav-link">
+                <a href="{{route('admin.adminuser')}}" class="nav-link">
                   <i class="fas fa-sm fa-arrow-right"></i>&nbsp;Admin Users
                 </a>
               </li>              

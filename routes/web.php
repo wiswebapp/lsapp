@@ -34,7 +34,7 @@ Auth::routes();
 Route::get('/dashboard', 'DashboardController@index')->name('home');
 
 /*--------------------Admin Panel--------------------*/
-Route::get('admin', 'Auth\admin\LoginController@showLoginForm')->name('admin');
+Route::get('/admin', 'Auth\admin\LoginController@showLoginForm')->name('admin');
 // Route::get('admin', function(){
 //     return redirect()->route('admin.login');
 // });
@@ -46,9 +46,26 @@ Route::prefix('admin')->namespace('Auth\admin')->group(function(){
 });
 Route::prefix('admin')->middleware(['auth:admin'])->namespace('admin')->group(function(){    
     $this->get('/user','UsersController@index');
-    $this->get('/user/admin_user','UsersController@admin')->name('admin.user.admin_user');
+    
+    $this->get('/adminuser','UsersController@admin')->name('admin.adminuser');
+    $this->get('/adminuser/create','UsersController@create_admin')->name('admin.createadminuser');
+    $this->post('/adminuser/create','UsersController@create_admin');
+    $this->get('/adminuser/edit/{id}','UsersController@edit_admin')->name('admin.editadminuser');
+    $this->post('/adminuser/edit/{id}','UsersController@edit_admin');
+    $this->post('/adminuser/delete', 'UsersController@delete_admin');
+
+    // $this->get('categories', 'Admin\Category\CategoryController@category')->name('categories');
+    // $this->post('store/category', 'Admin\Category\CategoryController@storecategory')->name('store.category');
+    // $this->get('delete/category/{id}', 'Admin\Category\CategoryController@Deletecategory');
+    // $this->get('edit/category/{id}', 'Admin\Category\CategoryController@Editcategory');
+    // $this->post('update/category/{id}', 'Admin\Category\CategoryController@Updatecategory');
 });
 
 Route::prefix('admin')->namespace('Admin')->group(function(){
     $this->get('dashboard','DashboardController@index')->name('admin.dashboard');
 });
+
+/*--------JUST FOR TESTING--------*/
+Route::get('sendbasicemail','MailController@basic_email');
+Route::get('sendhtmlemail','MailController@html_email');
+Route::get('sendattachmentemail','MailController@attachment_email');

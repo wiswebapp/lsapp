@@ -15,11 +15,12 @@ class CreateAdminTable extends Migration
     {
         Schema::create('admin', function (Blueprint $table) {
             $table->increments('iAdminId')->unsigned();
-            $table->integer('iGroupId');
+            $table->integer('iGroupId')->default(NULL);
             $table->string('vName');
             $table->string('vEmail');
             $table->string('vMobile');
             $table->string('vPassword');
+            $table->string('vImage');
             $table->enum('eStatus',['Active','InActive'])->default('Active');
             $table->softDeletes();
             $table->rememberToken();

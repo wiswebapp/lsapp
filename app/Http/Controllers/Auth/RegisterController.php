@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Mail;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -62,10 +63,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'vName' => $data['vName'],
             'vEmail' => $data['vEmail'],
             'vPassword' => bcrypt($data['vPassword']),
         ]);
+        
+        $emailUser = 'xyz@gmail.com';
+
+        // Mail::send('include.mail', $data, function($message) {
+        //     global $data;
+        //     $message->from('noreply@test.com','LSAPP2020');
+        //     $message->to($emailUser, 'LSAPP 2020')
+        //         ->subject('Registration Successful on LSAPP2020');
+        // });
+        //pre($data);
+        return $user;
     }
 }

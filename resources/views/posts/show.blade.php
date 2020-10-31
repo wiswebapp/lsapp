@@ -6,6 +6,8 @@
 
 @section('content')
     <a href="/post" class="btn btn-sm btn-danger">Go Back</a>
+    <hr>
+    <img src="/storage/postImage/{{$post['vImage']}}" alt="{{$post['vTitle']}}" style="width: 100%">
     <h1>{{$post['vTitle']}}</h1>    
     <p><small>{!!$post['vBody']!!}</small></p>
     <hr>

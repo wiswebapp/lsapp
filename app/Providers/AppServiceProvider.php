@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+error_reporting(0);
+
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 

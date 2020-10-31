@@ -1,1 +1,51 @@
-https://docs.google.com/spreadsheets/d/1qUKu2fkJ_8BWxyN2NoxXvDeKZT6JOBpS7uFzoaFN-x8/edit#gid=0
+Basic Laravel Auth: ability to log in as administrator
+→ php artisan make:auth
+
+Use database seeds to create first user with email admin@admin.com and password “password”
+→ php artisan make:seeder UserTableSeeder
+php artisan db:seed
+
+CRUD functionality (Create / Read / Update / Delete) for two menu items: Companies and Employees.
+→ Done
+
+Companies DB table consists of these fields: Name (required), email, logo (minimum 100×100), website
+→ Done
+
+Employees DB table consists of these fields: First name (required), last name (required), Company (foreign key to Companies), email, phone
+→ Done
+
+Use database migrations to create those schemas above
+→ php artisan migrate
+
+Store companies logos in storage/app/public folder and make them accessible from public
+→ php artisan storage:link
+
+Use basic Laravel resource controllers with default methods – index, create, store etc.
+→ php artisan make:controller PhotoController --resource
+
+Use Laravel’s validation function, using Request classes
+→ Done
+
+Use Laravel’s pagination for showing Companies/Employees list, 10 entries per page
+→ Done
+
+Use Laravel make:auth as default Bootstrap-based design theme, but remove ability to register
+→ composer require laravel/ui 
+php artisan ui Bootstrap
+npm install && npm run dev
+
+Use more complicated front-end theme like AdminLTE
+→ Done
+
+Use Datatables.net library to show table – with our without server-side rendering
+→ Pending
+
+Email notification: send email whenever new company is entered (use Mailgun or Mailtrap)
+→ Pending
+
+Make the project multi-language (using resources/lang folder)
+→ Pending
+
+Basic testing with phpunit (I know some would argue it should be the basics, but I disagree)
+→ Pending
+

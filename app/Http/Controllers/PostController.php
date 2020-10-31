@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -66,13 +67,31 @@ class PostController extends Controller
         $this->validate($request, [
             'vTitle'=> 'required',
             'vBody'=> 'required',
+            'vImage'=> 'image|nullable|max:1999',
         ]);
+
+        //Handle File Upload
+        if($request->hasFile('vImage')){
+            //Get Filename Extension
+            $fileExt = $request->file('vImage')->getClientOriginalName();
+            //Get Just filename
+            $fileName = pathinfo($fileExt, PATHINFO_FILENAME);
+            //Get just extension
+            $extension = $request->file('vImage')->getClientOriginalExtension();
+            //Filename to store
+            $fileNametoStore = $fileName."_".time().".".$extension;
+            //Upload Image
+            $path = $request->file('vImage')->storeAs('public/postImage',$fileNametoStore);
+        }else{
+            $fileNametoStore = "noimage.jpg";
+        }
         
         // Create Post
         $post = new post;
         $post->vTitle = $request->input('vTitle');
         $post->vBody = $request->input('vBody');
         $post->iUserId = auth()->user()->iUserId;
+        $post->vImage = $fileNametoStore;
         $post->save();
 
         return redirect('/dashboard')->with('success','Post Created');
@@ -120,10 +139,27 @@ class PostController extends Controller
             'vBody'=> 'required',
         ]);
         
+        //Handle File Upload
+        if($request->hasFile('vImage')){
+            //Get Filename Extension
+            $fileExt = $request->file('vImage')->getClientOriginalName();
+            //Get Just filename
+            $fileName = pathinfo($fileExt, PATHINFO_FILENAME);
+            //Get just extension
+            $extension = $request->file('vImage')->getClientOriginalExtension();
+            //Filename to store
+            $fileNametoStore = $fileName."_".time().".".$extension;
+            //Upload Image
+            $path = $request->file('vImage')->storeAs('public/postImage',$fileNametoStore);
+        }
+
         // Create Post
         $post = Post::find($id);
         $post->vTitle = $request->input('vTitle');
         $post->vBody = $request->input('vBody');
+        if($request->hasFile('vImage')){
+            $post->vImage = $fileNametoStore;
+        }
         $save = $post->save();
         
         return redirect('/post/'.$id)->with('success','Post Updated');
@@ -139,9 +175,13 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         //Check for correct user
-        /*if(auth()->user()->iUserId !== $data['post']['iUserId']){
+        if(auth()->user()->iUserId !== $post->iUserId){
             return redirect('/post')->with('error','Unauthorized Page');
-        }*/
+        }
+        //Remov Image
+        if($post->vImage != "" && !empty($post->vImage)){
+            Storage::delete('public/postImage/'.$post->vImage);
+        }
         $post->delete();
         return redirect('/post/')->with('success','Post Removed');
     }

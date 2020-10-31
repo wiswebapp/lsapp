@@ -27,24 +27,32 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
+              @include('include.messages')
               <div class="card-header">
                 <!-- Filter Area -->
-                <form action="">                
+                <form method="GET" action="">                
                     <div class="row">
                         <div class="col-1"><p style="margin-top: 7px;">Filter Data</p></div>
                         <div class="col-2">
-                        <input type="text" class="form-control" placeholder="Filter by Name">
+                        <input type="text" name="name" class="form-control" placeholder="Filter by Name" value="{{isset($_GET['name']) ? $_GET['name'] : ""}}">
                         </div>
                         <div class="col-2">
-                            <input type="text" class="form-control" placeholder="Filter by Email">
+                            <input type="text" name="email" class="form-control" placeholder="Filter by Email" value="{{isset($_GET['email']) ? $_GET['email'] : ""}}">
                         </div>
                         <div class="col-2">
-                            <select name="" class="form-control">
+                            <select name="status" class="form-control">
                                 <option value="">Filter By Status</option>
-                                <option value="Active">Active</option>
-                                <option value="InActive">InActive</option>
+                                <option <?=($_GET['status'] == "Active") ? "selected" : ""?> value="Active">Active</option>
+                                <option <?=($_GET['status'] == "InActive") ? "selected" : ""?> value="InActive">InActive</option>
                             </select>
                         </div>
+                        <div class="col-2">
+                          <button type="submit" class="btn btn-default">Filter</button>
+                          <a href="{{route('admin.adminuser')}}" class="btn btn-default">Reset</a>
+                        </div>
+                        <div class="col-3">
+                        <a href="{{route('admin.createadminuser')}}" class="btn btn-default" style="float: right">Create Admin</a>
+                      </div>
                     </div>
                 </form>
               </div>
@@ -53,29 +61,39 @@
                 <table class="table table-bordered text-nowrap">
                   <thead>
                     <tr>
-                      <th>#</th>
+                      <th><input type="checkbox"></th>
                       <th>Name</th>
                       <th>Email</th>
+                      <th>Mobile</th>
                       <th>Status</th>
+                      <th style="width: 15%">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     @if (count($data['pageData']) > 0)
-                        @for ($i = 0; $i < count($data['pageData']); $i++)
+                        @foreach($data['pageData'] as $pageData)
                             <tr>
-                                <td><?=$i+1?></td>
-                                <td><?=$data['pageData'][$i]['vName']?></td>
-                                <td><?=$data['pageData'][$i]['vEmail']?></td>
-                                <td><?=$data['pageData'][$i]['vEmail']?></td>
+                                <td><input type="checkbox"></td>
+                                <td><?=$pageData->vName?></td>
+                                <td><?=$pageData->vEmail?></td>
+                                <td><?=$pageData->vMobile?></td>
+                                <td><?=$pageData->eStatus?></td>
+                                <td>
+                                  <a href="{{url('/admin/adminuser/edit/'.$pageData->iAdminId)}}" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> Edit</a>
+                                  <span onclick="removeAdmin({{$pageData->iAdminId}})" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</span>
+                                </td>
                             </tr>
-                        @endfor
+                        @endforeach
                     @else
-                    <tr>
-                      <td rowspan="10">Sorry. No Data Found</td>
+                    <tr class="text-danger">
+                      <td colspan="10">Sorry No Data Found</td>
                     </tr>
                     @endif
                   </tbody>
                 </table>
+              </div>
+              <div class="pull-right">
+                {{$data['pageData']->links('pagination::bootstrap-4')}}
               </div>
             </div>
           </div>

@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->string('vTitle');
             $table->mediumtext('vBody');
             $table->integer('iUserId');
+            $table->string('vImage');
             $table->enum('eStatus',['Active','InActive'])->default('Active');
             $table->softDeletes();
             $table->timestamps();

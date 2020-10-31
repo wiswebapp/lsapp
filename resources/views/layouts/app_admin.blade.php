@@ -15,7 +15,9 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{{adminAssets('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{adminAssets('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
-    <link rel="stylesheet" href="{{adminAssets('dist/css/adminlte.min.css')}}">    
+    <link rel="stylesheet" href="{{adminAssets('dist/css/adminlte.min.css')}}">
+    <!-- jQuery -->
+    <script src="{{adminAssets('plugins/jquery/jquery.min.js')}}"></script>
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     
@@ -30,6 +32,7 @@
     <div class="wrapper">
         
         @if (!$isLogin)
+            @include('include.admin_js');
             @include('include.admin_navbar');
             @include('include.admin_sidebar');
         @endif
@@ -42,25 +45,13 @@
 
     </div>
 
-    <!-- jQuery -->
-    <script src="{{adminAssets('plugins/jquery/jquery.min.js')}}"></script>
+    
     <!-- Bootstrap -->
     <script src="{{adminAssets('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- overlayScrollbars -->
     <script src="{{adminAssets('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{adminAssets('dist/js/adminlte.js')}}"></script>
-    <!-- OPTIONAL SCRIPTS -->
-    <script src="{{adminAssets('dist/js/demo.js')}}"></script>
     <!-- PAGE PLUGINS -->
     <script src="{{adminAssets('plugins/jquery-mousewheel/jquery.mousewheel.js')}}"></script>
-    <script src="{{adminAssets('plugins/raphael/raphael.min.js')}}"></script>
-    <script src="{{adminAssets('plugins/jquery-mapael/jquery.mapael.min.js')}}"></script>
-    <script src="{{adminAssets('plugins/jquery-mapael/maps/usa_states.min.js')}}"></script>
-    <script src="{{adminAssets('plugins/chart.js/Chart.min.js')}}"></script>
-    <script src="{{adminAssets('dist/js/pages/dashboard2.js')}}"></script>
-    {{-- <script>
-        CKEDITOR.replace( 'article-ckeditor' );
-    </script> --}}
+    <script src="{{adminAssets('dist/js/pages/adminapp.js')}}"></script>
 </body>
 </html>
