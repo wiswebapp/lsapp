@@ -38,7 +38,11 @@ class User extends Authenticatable
         return $this->vPassword;
     }
 
-    // public function post(){
-    //     return $this->hasMany('App\Post','iUserId');
-    // }
+    public function post(){
+        return $this->hasMany('App\Post','iUserId',$this->primaryKey);
+        // For Post table
+        //     iUserId = Foreign Key
+        // From User Table
+        //     iUserId = primary Key
+    }
 }

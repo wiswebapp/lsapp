@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Pages;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -13,8 +14,8 @@ class PagesController extends Controller
     }
 
     public function about(){
-        $title = "Welcome to Laravel About Us";
-        return view('pages.about',compact('title'));
+        $data['data'] =  Pages::find(1);
+        return view('pages.about')->with('data',$data);
     }
 
     public function services(){        

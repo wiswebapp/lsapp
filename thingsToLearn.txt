@@ -49,3 +49,60 @@ Make the project multi-language (using resources/lang folder)
 Basic testing with phpunit (I know some would argue it should be the basics, but I disagree)
 → Pending
 
+-----------------------------------ELOQUENT-----------------------------------
+$flights = App\Flight::all();
+App\Flight::where('active', 1)
+               ->orderBy('name', 'desc')
+               ->take(10)
+               ->get();
+App\Flight::find(1);
+App\Flight::find([1, 2, 3]);
+$count = App\Flight::where('active', 1)->count();
+$max = App\Flight::where('active', 1)->max('price'); 
+-----------------------------------QUERYBUILDER-----------------------------------
+DB::table('users')->get();
+DB::table('users')->where('name', 'John')->first();
+DB::table('roles')->pluck('title','title2');
+DB::table('users')->orderBy('id')->chunk(100, function ($users) {
+    foreach ($users as $user) {
+        ...
+        return false;
+    }
+});
+DB::table('users')->count();
+DB::table('orders')->max('price');
+DB::table('orders')->avg('price');
+DB::table('users')->select('name', 'email as user_email')->get();
+DB::table('users')
+                     ->select(DB::raw('count(*) as user_count, status'))
+                     ->where('status', '<>', 1)
+                     ->groupBy('status')
+                     ->get();
+→ JOIN
+DB::table('users')
+            ->join('contacts', 'users.id', '=', 'contacts.user_id')
+            ->join('orders', 'users.id', '=', 'orders.user_id')
+            ->select('users.*', 'contacts.phone', 'orders.price')
+            ->get();
+→ Where
+DB::table('users')
+    ->where('votes', '=', 100)
+    ->orWhere('name', 'John')
+    ->whereBetween('votes', [1, 100])
+    ->whereNotBetween('votes', [1, 100])
+    ->whereIn('id', [1, 2, 3])
+    ->whereNotIn('id', [1, 2, 3])
+    ->whereNull('updated_at')
+    >whereNotNull('updated_at')
+    ->whereDate('created_at', '2016-12-31')
+    ->whereMonth('created_at', '12')
+    ->whereDay('created_at', '31')
+    ->whereYear('created_at', '2016')
+    ->get();
+→ Insert/Update
+DB::table('users')->insert(
+    ['email' => 'john@example.com', 'votes' => 0]
+);
+DB::table('users')
+            ->where('id', 1)
+            ->update(['votes' => 1]);

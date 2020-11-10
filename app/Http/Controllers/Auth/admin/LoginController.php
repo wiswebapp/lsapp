@@ -51,7 +51,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view('auth.admin.login');
+        return view('admin.auth.login');
     }
 
     /**
@@ -146,7 +146,11 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        //
+        if ($user->eStatus != "Active") {
+            $this->guard()->logout();
+            return redirect('/admin/login')->with('error', 'Looks Like Your status is InActive');
+            echo $user->eStatus;exit;
+        }
     }
 
     /**

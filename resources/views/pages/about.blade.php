@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
+
 @section('content')
-    <h1><?=$title?></h1>
-    <h2>This is About Page</h2>
+    
+    <h1>{{$data['data']->vPageName}}</h1>
+    <hr>
+    <div>
+        {!!$data['data']->tDescription!!}
+    </div>
+
 @endsection

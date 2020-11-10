@@ -69,14 +69,11 @@ class RegisterController extends Controller
             'vPassword' => bcrypt($data['vPassword']),
         ]);
         
-        $emailUser = 'xyz@gmail.com';
-
-        // Mail::send('include.mail', $data, function($message) {
-        //     global $data;
-        //     $message->from('noreply@test.com','LSAPP2020');
-        //     $message->to($emailUser, 'LSAPP 2020')
-        //         ->subject('Registration Successful on LSAPP2020');
-        // });
+        Mail::send('include.mail', $data, function($message) use($data) {
+            $message->from('noreply@test.com','LSAPP2020');
+            $message->to($data['vEmail'], 'LSAPP 2020')
+                ->subject('Registration Successful on LSAPP2020');
+        });
         //pre($data);
         return $user;
     }

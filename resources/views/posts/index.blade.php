@@ -11,8 +11,7 @@
                     </div>
                     <div class="col-md-9">
                         <h3><a href="/post/{{$post['iPostId']}}">{{$post['vTitle']}}</a></h3>
-                <small>Written on : {{$post['created_at']}}</small>
-                <small>Written by : {{$post['iUserId']}}</small>
+                        <small>Written on : {{$post['created_at']}} by {{$post->user->vName}}</small>
                     </div>
                 </div>
             </div>

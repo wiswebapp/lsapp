@@ -1,12 +1,13 @@
 <script>
-    function removeAdmin(adminId){
+    function removeData(routeUrl,dataId){
+        
         if(confirm('Are you sure you want to delete ?')){
             $.ajax({
                 type : "POST",
-                url : '{{url('admin/adminuser/delete/')}}',
+                url : ''+routeUrl+'',
                 data : {
                     "_token": "{{ csrf_token() }}",
-                    adminId:adminId
+                    dataId:dataId
                 },
                 success : function(response) {
                     location.reload();
@@ -14,4 +15,5 @@
             });
         }
     }
+    
 </script>

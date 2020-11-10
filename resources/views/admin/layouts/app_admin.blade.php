@@ -1,5 +1,8 @@
 @php
     $isLogin = (Request::segment(2) == "login") ? true : false;
+    if(!$isLogin){
+        $isLogin = (Request::segment(1) == "admin") ? (empty(Request::segment(2))) ? true :false : false;
+    }
 @endphp
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
@@ -15,6 +18,7 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{{adminAssets('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{adminAssets('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+    <link rel="stylesheet" href="{{adminAssets('plugins/summernote/summernote-bs4.css')}}">
     <link rel="stylesheet" href="{{adminAssets('dist/css/adminlte.min.css')}}">
     <!-- jQuery -->
     <script src="{{adminAssets('plugins/jquery/jquery.min.js')}}"></script>
@@ -32,26 +36,29 @@
     <div class="wrapper">
         
         @if (!$isLogin)
-            @include('include.admin_js');
-            @include('include.admin_navbar');
-            @include('include.admin_sidebar');
+            @include('admin.include.admin_js');
+            @include('admin.include.admin_navbar');
+            @include('admin.include.admin_sidebar');
         @endif
 
         @yield('content_admin')
 
         @if (!$isLogin)
-        @include('include.admin_footer')
+        @include('admin.include.admin_footer')
         @endif
 
     </div>
-
     
     <!-- Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="{{adminAssets('plugins/bootstrap/js/bootstrap.min.js')}}"></script>
     <script src="{{adminAssets('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{adminAssets('dist/js/adminlte.min.js')}}"></script>
     <!-- overlayScrollbars -->
     <script src="{{adminAssets('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
     <!-- PAGE PLUGINS -->
     <script src="{{adminAssets('plugins/jquery-mousewheel/jquery.mousewheel.js')}}"></script>
+    <script src="{{adminAssets('plugins/summernote/summernote-bs4.min.js')}}"></script>
     <script src="{{adminAssets('dist/js/pages/adminapp.js')}}"></script>
 </body>
 </html>

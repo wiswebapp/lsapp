@@ -1,8 +1,8 @@
 <?php
-    $routeUrl = route('admin.adminuser');
-    $routeCreateUrl = route('admin.createadminuser');
-    $routeEditUrl = url('/admin/adminuser/edit/');
-    $routeDeleteurl = url('admin/adminuser/delete/');
+    $routeUrl = route('admin.cmspage');
+    $routeCreateUrl = route('admin.createcmspage');
+    $routeEditUrl = url('/admin/cmspage/edit/');
+    $routeDeleteurl = url('admin/cmspage/delete/');
 ?>
 @extends('admin.layouts.app_admin')
 
@@ -43,9 +43,6 @@
                         <input type="text" name="name" class="form-control" placeholder="Filter by Name" value="{{isset($_GET['name']) ? $_GET['name'] : ""}}">
                         </div>
                         <div class="col-2">
-                            <input type="text" name="email" class="form-control" placeholder="Filter by Email" value="{{isset($_GET['email']) ? $_GET['email'] : ""}}">
-                        </div>
-                        <div class="col-2">
                             <select name="status" class="form-control">
                                 <option value="">Filter By Status</option>
                                 <option <?=($_GET['status'] == "Active") ? "selected" : ""?> value="Active">Active</option>
@@ -56,8 +53,8 @@
                           <button type="submit" class="btn btn-default">Filter</button>
                           <a href="{{$routeUrl}}" class="btn btn-default">Reset</a>
                         </div>
-                        <div class="col-3">
-                        <a href="{{$routeCreateUrl}}" class="btn btn-default" style="float: right">Create Admin</a>
+                        <div class="col-5">
+                        {{-- <a href="{{$routeCreateUrl}}" class="btn btn-default" style="float: right">Create Page</a> --}}
                       </div>
                     </div>
                 </form>
@@ -68,9 +65,9 @@
                   <thead>
                     <tr>
                       <th><input type="checkbox"></th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Mobile</th>
+                      <th>Page Name</th>
+                      <th>Page Title</th>
+                      <th>Page Slug</th>
                       <th>Status</th>
                       <th style="width: 15%">Action</th>
                     </tr>
@@ -80,13 +77,13 @@
                         @foreach($data['pageData'] as $pageData)
                             <tr>
                                 <td><input type="checkbox"></td>
-                                <td><?=$pageData->vName?></td>
-                                <td><?=$pageData->vEmail?></td>
-                                <td><?=$pageData->vMobile?></td>
+                                <td><?=$pageData->vPageName?></td>
+                                <td><?=$pageData->vTitle?></td>
+                                <td><?=$pageData->vSlug?></td>
                                 <td><?=$pageData->eStatus?></td>
                                 <td>
-                                  <a href="{{$routeEditUrl.'/'.$pageData->iAdminId}}" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> Edit</a>
-                                  <span onclick="removeData('{{$routeDeleteurl}}',{{$pageData->iAdminId}})" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</span>
+                                  <a href="{{$routeEditUrl.'/'.$pageData->iPageId}}" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> Edit</a>
+                                  {{-- <span onclick="removeUser('{{$routeDeleteurl}}',{{$pageData->iPageId}})" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</span> --}}
                                 </td>
                             </tr>
                         @endforeach

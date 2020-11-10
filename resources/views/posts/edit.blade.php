@@ -25,7 +25,8 @@
             {{Form::file('vImage')}}
         </div>
 
-        {{Form::submit('Submit',['class'=>'btn btn-sm btn-primary'])}}
+        {{Form::submit('Submit',['class'=>'btn btn-success'])}}
+        <a href="{{ URL::previous() }}" class="btn btn-danger">Back</a>
 
     {!! Form::close() !!}
 @endsection

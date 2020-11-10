@@ -46,6 +46,7 @@ Route::prefix('admin')->namespace('Auth\admin')->group(function(){
 });
 Route::prefix('admin')->middleware(['auth:admin'])->namespace('admin')->group(function(){    
     $this->get('/user','UsersController@index');
+    $this->get('dashboard','DashboardController@index')->name('admin.dashboard');
     
     $this->get('/adminuser','UsersController@admin')->name('admin.adminuser');
     $this->get('/adminuser/create','UsersController@create_admin')->name('admin.createadminuser');
@@ -54,16 +55,21 @@ Route::prefix('admin')->middleware(['auth:admin'])->namespace('admin')->group(fu
     $this->post('/adminuser/edit/{id}','UsersController@edit_admin');
     $this->post('/adminuser/delete', 'UsersController@delete_admin');
 
-    // $this->get('categories', 'Admin\Category\CategoryController@category')->name('categories');
-    // $this->post('store/category', 'Admin\Category\CategoryController@storecategory')->name('store.category');
-    // $this->get('delete/category/{id}', 'Admin\Category\CategoryController@Deletecategory');
-    // $this->get('edit/category/{id}', 'Admin\Category\CategoryController@Editcategory');
-    // $this->post('update/category/{id}', 'Admin\Category\CategoryController@Updatecategory');
+    $this->get('/user','UsersController@user')->name('admin.user');
+    $this->get('/user/create','UsersController@create_user')->name('admin.createuser');
+    $this->post('/user/create','UsersController@create_user');
+    $this->get('/user/edit/{id}','UsersController@edit_user')->name('admin.edituser');
+    $this->post('/user/edit/{id}','UsersController@edit_user');
+    $this->post('/user/delete', 'UsersController@delete_user');
+
+    $this->get('/cmspage','MasterController@cmspage')->name('admin.cmspage');
+    $this->get('/cmspage/create','MasterController@create_cmspage')->name('admin.createcmspage');
+    $this->post('/cmspage/create','MasterController@create_cmspage');
+    $this->get('/cmspage/edit/{id}','MasterController@edit_cmspage')->name('admin.editcmspage');
+    $this->post('/cmspage/edit/{id}','MasterController@edit_cmspage');
+    $this->post('/cmspage/delete', 'MasterController@delete_cmspage');
 });
 
-Route::prefix('admin')->namespace('Admin')->group(function(){
-    $this->get('dashboard','DashboardController@index')->name('admin.dashboard');
-});
 
 /*--------JUST FOR TESTING--------*/
 Route::get('sendbasicemail','MailController@basic_email');

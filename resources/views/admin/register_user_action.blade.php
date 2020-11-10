@@ -1,10 +1,10 @@
 <?php
   $action = $data['action'];
-  $actionUrl = "admin\UsersController@create_admin";
+  $actionUrl = "admin\UsersController@create_user";
 
   if($action == "Edit"){
     $pageData = $data['pageData'];
-    $actionUrl = "admin\UsersController@edit_admin";
+    $actionUrl = "admin\UsersController@edit_user";
   }
 ?>
 
@@ -39,7 +39,7 @@
               @include('include.messages')
             <div class="card">
               {{-- Form Event start Here --}} 
-            {!! Form::open(['action' => [$actionUrl,@$pageData->iAdminId],'method'=>'post','enctype'=>'multipart/form-data']) !!}
+            {!! Form::open(['action' => [$actionUrl,@$pageData->iUserId],'method'=>'post','enctype'=>'multipart/form-data']) !!}
               <div class="card-body">
                        
                   <div class="col-md-8">

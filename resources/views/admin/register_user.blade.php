@@ -1,8 +1,8 @@
 <?php
-    $routeUrl = route('admin.adminuser');
-    $routeCreateUrl = route('admin.createadminuser');
-    $routeEditUrl = url('/admin/adminuser/edit/');
-    $routeDeleteurl = url('admin/adminuser/delete/');
+    $routeUrl = route('admin.user');
+    $routeCreateUrl = route('admin.createuser');
+    $routeEditUrl = url('/admin/user/edit/');
+    $routeDeleteurl = url('admin/user/delete/');
 ?>
 @extends('admin.layouts.app_admin')
 
@@ -57,7 +57,7 @@
                           <a href="{{$routeUrl}}" class="btn btn-default">Reset</a>
                         </div>
                         <div class="col-3">
-                        <a href="{{$routeCreateUrl}}" class="btn btn-default" style="float: right">Create Admin</a>
+                        <a href="{{$routeCreateUrl}}" class="btn btn-default" style="float: right">Create User</a>
                       </div>
                     </div>
                 </form>
@@ -85,8 +85,8 @@
                                 <td><?=$pageData->vMobile?></td>
                                 <td><?=$pageData->eStatus?></td>
                                 <td>
-                                  <a href="{{$routeEditUrl.'/'.$pageData->iAdminId}}" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> Edit</a>
-                                  <span onclick="removeData('{{$routeDeleteurl}}',{{$pageData->iAdminId}})" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</span>
+                                  <a href="{{$routeEditUrl.'/'.$pageData->iUserId}}" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> Edit</a>
+                                  <span onclick="removeData('{{$routeDeleteurl}}',{{$pageData->iUserId}})" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</span>
                                 </td>
                             </tr>
                         @endforeach
