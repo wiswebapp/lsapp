@@ -6,6 +6,13 @@
     {!! Form::open(['action' => 'PostController@store','method'=>'post','enctype'=>'multipart/form-data']) !!}
     
     <div class="form-group">
+        <select name="categories_id[]" multiple class="form-control">
+        @foreach ($data['categories'] as $category)
+          <option value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+        </select>
+    </div>
+    <div class="form-group">
         {{Form::label('Enter Title')}}
         {{Form::text('vTitle','',['class'=>'form-control','placeholder'=>'Title'])}}
     </div>

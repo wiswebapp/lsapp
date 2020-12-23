@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use App\Post;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,23 +27,18 @@ class PostController extends Controller
      */
     public function index()
     {
-        //$data['post'] =  Post::all();
-        $data['post'] =  Post::orderBy('created_at','desc')->paginate(6);
-        // $data['post'] =  DB::table('posts')
-        //                         ->join('users','users.iUserId','=','posts.iUserId')
-        //                         ->paginate(6);
-                                //->get();
-        //$data['post'] = json_decode(json_encode($data['post']),TRUE);
-        //echo "<pre>";print_r($data);exit;
-        //$data['post'] =  Post::where('vTitle','Post Two')->get();
-        //$data['post'] = Db::select('SELECT * FROM posts');
-        /*
-            TO Enable Query Log Also check constructer
-            $queries = DB::getQueryLog();
-            $last_query = end($queries);
-            echo "<pre>";print_r($queries);exit;
-        */        
-        return view('posts.index',compact('data'));
+        $postData = Post::where('eStatus', 'Active');
+
+        $date = isset($_REQUEST['date']) ? $_REQUEST['date'] : "";
+        if(!empty($date)){
+            $postData->whereDate('created_at', date('Y-m-d',strtotime($date)));
+        }
+        $postData->orderBy('created_at','asc');
+
+        $data['post'] = $postData->paginate(10);
+        $data['postCount'] = $postData->count();
+        //dd($data);
+        return view('posts.index')->with('data',$data);
     }
 
     /**
@@ -53,7 +48,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $data['categories'] = Category::all();
+        return view('posts.create',compact('data'));
     }
 
     /**
@@ -64,10 +60,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        
         $this->validate($request, [
             'vTitle'=> 'required',
             'vBody'=> 'required',
             'vImage'=> 'image|nullable|max:1999',
+            'categories_id' => ['required', 'array', 'min:1'],
+            'categories_id.*' => ['required', 'integer', 'exists:categories,id'],
         ]);
 
         //Handle File Upload
@@ -93,6 +92,7 @@ class PostController extends Controller
         $post->iUserId = auth()->user()->iUserId;
         $post->vImage = $fileNametoStore;
         $post->save();
+        $post->categories()->attach($request->categories_id);
 
         return redirect('/dashboard')->with('success','Post Created');
     }
@@ -117,6 +117,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $data['categories'] = Category::all();
         $data['post'] = Post::find($id);
         //Check for correct user
         if(auth()->user()->iUserId !== $data['post']['iUserId']){
@@ -137,6 +138,8 @@ class PostController extends Controller
         $this->validate($request, [
             'vTitle'=> 'required',
             'vBody'=> 'required',
+            'categories_id' => ['required', 'array', 'min:1'],
+            'categories_id.*' => ['required', 'integer', 'exists:categories,id'],
         ]);
         
         //Handle File Upload
@@ -152,7 +155,6 @@ class PostController extends Controller
             //Upload Image
             $path = $request->file('vImage')->storeAs('public/postImage',$fileNametoStore);
         }
-
         // Create Post
         $post = Post::find($id);
         $post->vTitle = $request->input('vTitle');
@@ -161,6 +163,7 @@ class PostController extends Controller
             $post->vImage = $fileNametoStore;
         }
         $save = $post->save();
+        $post->categories()->sync($request->categories_id);
         
         return redirect('/post/'.$id)->with('success','Post Updated');
     }

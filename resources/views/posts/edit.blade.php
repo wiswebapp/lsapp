@@ -1,5 +1,7 @@
 <?php
-    $post = $data['post'];    
+    $post = $data['post'];
+    // echo "<pre>";dd($data['post']->categories);exit;
+    //dd($post->categories);
 ?>
 
 @extends('layouts.app')
@@ -10,7 +12,19 @@
     {!! Form::open(['action' => ['PostController@update',$post['iPostId']],'method'=>'post','enctype'=>'multipart/form-data']) !!}
 
         {{Form::hidden('_method','PUT')}}
-
+        
+        <div class="form-group">
+            <select name="categories_id[]" multiple class="form-control">
+            @foreach ($data['categories'] as $category)
+                <option value="{{ $category->id }}"
+                    <?php foreach ($post->categories as $item) {
+                        echo ($item->id == $category->id) ? "selected" : "";
+                    } ?>
+                >{{ $category->name }}</option>
+            @endforeach
+            </select>
+        </div>
+        
         <div class="form-group">
             {{Form::label('Enter Title')}}
             {{Form::text('vTitle',$post['vTitle'],['class'=>'form-control','placeholder'=>'Title'])}}

@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -28,20 +29,21 @@
 
     </div>
     
-    <div class="footer">
-        <hr>
-        <center>
-            <div style="color:red;background: black;margin: 0px;padding: 10px;text-shadow: 0px 0px 2px white;">
-                <h3>BLOG - A Complete Blog App For Blogger</h3>
-                <h4>This page took {{ number_format(microtime(true) - LARAVEL_START,2,'.','') }} seconds to render</h4>
-            </div>
-        </center>
-    </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script>
         //CKEDITOR.replace( 'article-ckeditor' );
+        $(document).ready(function(){
+
+            $( "#datepicker" ).datepicker({
+                format: "d-mm-yyyy",
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+
     </script>
 </body>
 </html>

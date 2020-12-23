@@ -22,5 +22,8 @@ class Post extends Model
     public function user(){
         return $this->belongsTo('App\User','iUserId');
     }
-     
+    
+    public function categories(){
+        return $this->belongsToMany(Category::class);
+    }
 }

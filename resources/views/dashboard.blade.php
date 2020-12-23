@@ -1,4 +1,4 @@
-
+<?php $i=1; ?>
 @extends('layouts.app')
 
 @section('content')
@@ -25,7 +25,7 @@
                         </tr>
                         @foreach($data['postdata'] as $post)
                         <tr>
-                            <th><?=++$i?></th>
+                            <th><?=$i++?></th>
                             <th><?=date('d M Y',strtotime($post['created_at']))?></th>
                             <th><a href="/post/{{$post['iPostId']}}/edit"><?=$post['vTitle']?></a></th>
                             <th>

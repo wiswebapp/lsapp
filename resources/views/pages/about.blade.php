@@ -3,10 +3,10 @@
 
 @section('content')
     
-    <h1>{{$data['data']->vPageName}}</h1>
+    <h1>{{isset($data['data']->vPageName) ? $data['data']->vPageName : "About Us"}}</h1>
     <hr>
     <div>
-        {!!$data['data']->tDescription!!}
+        {!!isset($data['data']->tDescription) ? $data['data']->tDescription : "Coming Soon"!!}
     </div>
 
 @endsection

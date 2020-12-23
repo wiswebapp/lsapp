@@ -26,16 +26,10 @@ class DashboardController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        DB::enableQueryLog();
+        
         $userid = auth()->user()->iUserId;
         $user = User::find($userid);
         $data['postdata'] = $user->post()->orderBy('iPostId','desc')->paginate(10);
-        //$data['postdata'] = $userX->post;
-        //dd(DB::getQueryLog());
-        // $data['postdata'] =  Post::where('iUserId',$userid)
-        //                             ->orderBy('iPostId','desc')
-        //                             ->paginate(6);
-        //                             //->get();
         return view('dashboard',compact('data'));
     }
 }
