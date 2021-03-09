@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\UserApiController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,15 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', [ApiController::class,'login']);
+Route::post('register',[UserApiController::class,'store']);
+
+Route::get('blog','Api\ApiController@index');
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::apiResource('blog','Api\ApiController')->except(['index']);
+    Route::apiResource('user','Api\UserApiController',[
+        'except' => ['store']
+    ]);
+    Route::post('logout', [ApiController::class,'logout']);
 });

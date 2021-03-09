@@ -2,29 +2,29 @@
 
 namespace App\Providers;
 
-//error_reporting(0);
-
+use App\Myclass\GeneralData;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        Schema::defaultStringLength(191);
-    }
-
     /**
      * Register any application services.
      *
      * @return void
      */
     public function register()
+    {
+        $this->app->bind('generalData', function ($app) {
+            return new GeneralData();
+        });
+    }
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
     {
         //
     }

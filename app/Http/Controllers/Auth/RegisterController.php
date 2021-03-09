@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Mail;
-use App\User;
+use App\Events\UserRegister;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+use App\Providers\RouteServiceProvider;
+use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/dashboard';
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -49,9 +51,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'vName' => 'required|string|max:255',
-            'vEmail' => 'required|string|email|max:255|unique:users',
-            'vPassword' => 'required|string|min:6|confirmed',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
 
@@ -64,17 +66,13 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = User::create([
-            'vName' => $data['vName'],
-            'vEmail' => $data['vEmail'],
-            'vPassword' => bcrypt($data['vPassword']),
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
         ]);
-        
-        Mail::send('include.mail', $data, function($message) use($data) {
-            $message->from('noreply@test.com','LSAPP2020');
-            $message->to($data['vEmail'], 'LSAPP 2020')
-                ->subject('Registration Successful on LSAPP2020');
-        });
-        //pre($data);
+
+        event( new UserRegister($user) );
+
         return $user;
     }
 }

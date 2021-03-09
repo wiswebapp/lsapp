@@ -2,27 +2,20 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, SoftDeletes;
-
-    //Table name
-    protected  $table = 'users';
-    
-    //Primary Key
-    protected $primaryKey = 'iUserId';
-    
+    use HasApiTokens,Notifiable;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'vName', 'vEmail', 'vPassword',
+        'name', 'email', 'password',
     ];
 
     /**
@@ -31,18 +24,20 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'vPassword', 'vPassword_confirmation',
+        'password', 'remember_token',
     ];
-    
-    public function getAuthPassword(){
-        return $this->vPassword;
-    }
 
-    public function post(){
-        return $this->hasMany('App\Post','iUserId',$this->primaryKey);
-        // For Post table
-        //     iUserId = Foreign Key
-        // From User Table
-        //     iUserId = primary Key
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function blog()
+    {
+        return $this->hasMany(Blog::class,);
     }
 }
